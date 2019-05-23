@@ -17,4 +17,9 @@ const lineObjArr = metroLine.map(e => {
     }
 })
 
-export default lineObjArr
+const stationsObj = {
+    metroLine: metroLine,
+    lineObjArr: lineObjArr
+} 
+
+export default stationsObj

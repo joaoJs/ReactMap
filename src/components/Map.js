@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import GoogleMapReact from 'google-map-react'
 import config from "../config"
-import lineObjArr from "../data/metroLine"
+import stationsObj from "../data/metroLine"
 
 class Map extends React.Component {
     static defaultProps = {
@@ -56,7 +56,7 @@ class Map extends React.Component {
         })
 
         const flightPath = new maps.Polyline({
-            path: lineObjArr,
+            path: stationsObj.lineObjArr,
             geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
@@ -88,7 +88,7 @@ class Map extends React.Component {
         if (this.state.markers.size > 0) {
             this.renderMarkers()
         }
-        console.log(lineObjArr)
+        
         return (
           <div style={{ height: '100vh', width: '100%' }}>
             <GoogleMapReact

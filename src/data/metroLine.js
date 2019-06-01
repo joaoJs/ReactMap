@@ -17,9 +17,19 @@ const lineObjArr = metroLine.map(e => {
     }
 })
 
+const destinationsObj = metroLine.map(e => {
+    return {
+        "point": {
+            "latitude": parseFloat(e.split(",")[0]),
+            "longitude": parseFloat(e.split(",")[1])
+        }
+    }
+})
+
 const stationsObj = {
     metroLine: metroLine,
-    lineObjArr: lineObjArr
+    lineObjArr: lineObjArr,
+    destinationsObj: destinationsObj
 } 
 
 export default stationsObj

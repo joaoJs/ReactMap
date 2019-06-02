@@ -6,10 +6,10 @@ import stationsObj from "../data/metroLine"
 class Map extends React.Component {
     static defaultProps = {
         center: {
-            lat: -23.55,
-            lng: -46.63
+            lat: -23.582561112887714,
+            lng: -46.772152663432166
         },
-        zoom: 11
+        zoom: 13
       };
 
     constructor() {
@@ -21,8 +21,7 @@ class Map extends React.Component {
               },
               zoom: 6,
               map: {},
-              maps: {},
-              markers: new Set()
+              maps: {}
         }
         this.handleClick = this.handleClick.bind(this)
         this.renderMarkers = this.renderMarkers.bind(this)
@@ -34,26 +33,17 @@ class Map extends React.Component {
             lat: event.lat,
             lng: event.lng
         }
-        const cStr = `${c.lat},${c.lng}`
-        console.log(cStr)
-        this.setState(prevState => {
-            return {
-                center: c,
-                markers: new Set(prevState.markers).add(cStr)
-            }
-        })
+        this.setState({
+                center: c
+            })
     }
 
     initiateMap(map, maps) {
         const c = this.state.center
-        const cStr = `${c.lat},${c.lng}`
-        this.setState(prevState => {
-            return {
-                markers: new Set(prevState.markers).add(cStr),
+        this.setState({
                 map:  map,
                 maps: maps
-            }
-        })
+            })
 
         const flightPath = new maps.Polyline({
             path: stationsObj.lineObjArr,
@@ -63,13 +53,14 @@ class Map extends React.Component {
             strokeWeight: 2
         });
 
+        this.renderMarkers() 
+
         flightPath.setMap(map);
     }
 
     renderMarkers() {  
-        const {map, maps, markers} = this.state; 
-        const markersArr = Array.from(markers); 
-        markersArr.forEach(m => {
+        const {map, maps} = this.state;  
+        stationsObj.metroLine.forEach(m => {
             const lat = parseFloat(m.split(",")[0])
             const lng = parseFloat(m.split(",")[1])
             const c = {
@@ -79,15 +70,14 @@ class Map extends React.Component {
             let marker = new maps.Marker({
                 position: c,
                 map,
+                icon: process.env.PUBLIC_URL + "/img/metroMarker.png",
                 title: 'Choose a place!'
             })
         })
     }
 
     render() {
-        if (this.state.markers.size > 0) {
-            this.renderMarkers()
-        }
+        // this.renderMarkers()
         
         return (
           <div style={{ height: '100vh', width: '100%' }}>
